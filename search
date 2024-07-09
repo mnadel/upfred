@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+import json
+import argparse
+from os import listdir
+from os.path import basename, isfile, join
+
+def read_title(buffer):
+    # it's a markdown file, example: # Title\n
+    space = buffer.find(" ")
+    newline = buffer.find("\n")
+    return buffer[space+1:newline].strip()
+
+def create_result(f, buffer):
+    base = basename(f)
+    uuid = base[:-3]    # remove .md
+
+    return {
+        "title": read_title(buffer),
+        "arg": uuid
+    }
+
+parser = argparse.ArgumentParser(prog=basename(sys.argv[0]), description="alfred+upnote integration")
+parser.add_argument("-d", "--dir", required=True, help="upnote backup path")
+parser.add_argument("search", nargs="+", help="search term")
+
+args = parser.parse_args()
+
+dirs = [join(args.dir, f) for f in listdir(args.dir) if not isfile(join(args.dir, f))]
+stats = map(lambda d: (os.stat(d).st_mtime, d), dirs)
+by_mtime = sorted(stats, key=lambda x: x[0], reverse=True)
+latest = join(by_mtime[0][1], "Markdown", "General Space")
+notes = [join(latest, f) for f in listdir(latest) if f.lower().endswith(".md")]
+
+results = []
+
+for f in notes:
+    with open(f, "r") as file:
+        buffer = file.read()
+        if all([s.lower() in buffer.lower() for s in args.search]):
+            results.append(create_result(f, buffer))
+
+print(json.dumps({"items": results}))
