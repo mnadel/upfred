@@ -4,8 +4,6 @@
 <dict>
 	<key>bundleid</key>
 	<string>org.nadel.alfred.upnote</string>
-	<key>category</key>
-	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>3ADE29F5-39C2-45E0-BFF9-F57014E57B7D</key>
@@ -217,6 +215,8 @@
 	<dict>
 		<key>0BE40F09-4247-44D8-A025-5792208ABF46</key>
 		<dict>
+			<key>note</key>
+			<string>create</string>
 			<key>xpos</key>
 			<real>505</real>
 			<key>ypos</key>
@@ -238,6 +238,8 @@
 		</dict>
 		<key>811D439D-B098-40D3-849B-D18F02068DAA</key>
 		<dict>
+			<key>note</key>
+			<string>open</string>
 			<key>xpos</key>
 			<real>505</real>
 			<key>ypos</key>
