@@ -3,6 +3,7 @@
 import os
 import sys
 import json
+import mmap
 import logging
 import argparse
 from os import listdir
@@ -13,6 +14,15 @@ logging.basicConfig(stream=sys.stderr,
     level=logging.DEBUG if os.getenv("DEBUG") else logging.ERROR,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
+
+def read(filename):
+    with open(filename, mode="r", encoding="utf8") as f:
+        return f.read().decode("utf8")
+
+def read_mmap(filename):
+    with open(filename, mode="r", encoding="utf8") as f:
+        with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ) as o:
+            return o.read().decode("utf8")
 
 def find(name, top):
     # given a file name, find its full path within the top directory
@@ -46,33 +56,43 @@ def title(buffer):
 def result(f, buffer):
     base = basename(f)
     uuid = base[:-3] # remove .md
+    sub = subtitle(f, uuid)
 
-    return {
+    res = {
         "title": title(buffer),
-        "subtitle": subtitle(f, uuid),
         "arg": uuid
     }
 
+    if sub:
+        res["subtitle"] = sub
+
+    return res
+
 parser = argparse.ArgumentParser(prog=basename(sys.argv[0]), description="alfred+upnote integration")
 parser.add_argument("-d", "--dir", required=True, help="upnote backup path")
+parser.add_argument("-n", "--no-mmap", action="store_true", help="do not use mmap to read files")
 parser.add_argument("search", nargs="+", help="search term")
 
 args = parser.parse_args()
 
+# find the latest backup directory
 dirs = [join(args.dir, f) for f in listdir(args.dir) if not isfile(join(args.dir, f))]
 stats = map(lambda d: (os.stat(d).st_mtime, d), dirs)
 by_mtime = sorted(stats, key=lambda x: x[0], reverse=True)
+
+# drill into $BACKUP/Markdown/General Space
 latest = join(by_mtime[0][1], "Markdown", "General Space")
+
+# find all markdown files in the latest backup directory
 notes = [join(latest, f) for f in listdir(latest) if f.lower().endswith(".md")]
 
 results = []
 terms = [x.strip() for x in " ".join(args.search).split(" ") if len(x.strip()) > 0]
 
 for f in notes:
-    with open(f, "r") as file:
-        buffer = file.read()
-        if all([s.lower() in buffer.lower() for s in terms]):
-            results.append(result(f, buffer))
+    buffer = read(f) if args.no_mmap else read_mmap(f)
+    if all([s.lower() in buffer.lower() for s in terms]):
+        results.append(result(f, buffer))
 
 if not results or len(results) < 1:
     title = " ".join(args.search).title().strip()
