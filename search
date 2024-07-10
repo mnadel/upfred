@@ -5,20 +5,36 @@ import sys
 import json
 import argparse
 from os import listdir
-from os.path import basename, isfile, join
+from os.path import basename, isfile, join, dirname
 
-def read_title(buffer):
+def find(name, path):
+    for root, _, files in os.walk(path):
+        if name in files:
+            return os.path.join(root, name)
+
+def subtitle(f, uuid):
+    basedir = dirname(f)
+    fullbase = join(basedir, "notebooks")
+    path = find(f"{uuid}.md", fullbase)
+    if not path:
+        return None
+
+    # add trailing sep so removeprefix works
+    return dirname(path.removeprefix(fullbase + os.path.sep))
+
+def title(buffer):
     # it's a markdown file, example: # Title\n
     space = buffer.find(" ")
     newline = buffer.find("\n")
     return buffer[space+1:newline].strip()
 
-def create_result(f, buffer):
+def result(f, buffer):
     base = basename(f)
-    uuid = base[:-3]    # remove .md
+    uuid = base[:-3] # remove .md
 
     return {
-        "title": read_title(buffer),
+        "title": title(buffer),
+        "subtitle": subtitle(f, uuid),
         "arg": uuid
     }
 
@@ -35,11 +51,12 @@ latest = join(by_mtime[0][1], "Markdown", "General Space")
 notes = [join(latest, f) for f in listdir(latest) if f.lower().endswith(".md")]
 
 results = []
+terms = [x.strip() for x in " ".join(args.search).split(" ") if len(x.strip()) > 0]
 
 for f in notes:
     with open(f, "r") as file:
         buffer = file.read()
-        if all([s.lower() in buffer.lower() for s in args.search]):
-            results.append(create_result(f, buffer))
+        if all([s.lower() in buffer.lower() for s in terms]):
+            results.append(result(f, buffer))
 
 print(json.dumps({"items": results}))
