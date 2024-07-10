@@ -65,7 +65,7 @@
 	<key>disabled</key>
 	<false/>
 	<key>name</key>
-	<string>UpNote</string>
+	<string>Upfred</string>
 	<key>objects</key>
 	<array>
 		<dict>
@@ -280,6 +280,6 @@
 	<key>version</key>
 	<string>0.2</string>
 	<key>webaddress</key>
-	<string></string>
+	<string>https://githhub.com/mnadel/upfred</string>
 </dict>
 </plist>
