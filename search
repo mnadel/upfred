@@ -59,4 +59,11 @@ for f in notes:
         if all([s.lower() in buffer.lower() for s in terms]):
             results.append(result(f, buffer))
 
+if not results or len(results) < 1:
+    title = " ".join(args.search).title().strip()
+    results.append({
+        "title": "Create note " + title,
+        "arg": "x-upfred-create:" + title
+    })
+    
 print(json.dumps({"items": results}))

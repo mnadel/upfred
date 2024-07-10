@@ -4,13 +4,53 @@
 <dict>
 	<key>bundleid</key>
 	<string>org.nadel.alfred.upnote</string>
+	<key>category</key>
+	<string>Productivity</string>
 	<key>connections</key>
 	<dict>
 		<key>3ADE29F5-39C2-45E0-BFF9-F57014E57B7D</key>
 		<array>
 			<dict>
 				<key>destinationuid</key>
+				<string>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>AB5119CD-5852-4CC8-84DF-854D1A737B2A</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>EBCDB824-38BB-4156-8B60-8CDEBEAC7C39</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>811D439D-B098-40D3-849B-D18F02068DAA</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>AB5119CD-5852-4CC8-84DF-854D1A737B2A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>0BE40F09-4247-44D8-A025-5792208ABF46</string>
 				<key>modifiers</key>
 				<integer>0</integer>
 				<key>modifiersubtext</key>
@@ -42,14 +82,31 @@
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
-				<string>upnote://x-callback-url/openNote?noteId={query}&amp;new_window=false</string>
+				<string>upnote://x-callback-url/note/new?title={query}&amp;new_window=false&amp;markdown=true</string>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
 			<key>uid</key>
-			<string>811D439D-B098-40D3-849B-D18F02068DAA</string>
+			<string>0BE40F09-4247-44D8-A025-5792208ABF46</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>x-upfred-create:</string>
+				<key>replacestring</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.replace</string>
+			<key>uid</key>
+			<string>AB5119CD-5852-4CC8-84DF-854D1A737B2A</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -100,11 +157,71 @@
 			<key>version</key>
 			<integer>3</integer>
 		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string></string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>4</integer>
+						<key>matchstring</key>
+						<string>x-upfred-create:.*</string>
+						<key>outputlabel</key>
+						<string>create</string>
+						<key>uid</key>
+						<string>EBCDB824-38BB-4156-8B60-8CDEBEAC7C39</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>open</string>
+				<key>hideelse</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>browser</key>
+				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
+				<key>spaces</key>
+				<string></string>
+				<key>url</key>
+				<string>upnote://x-callback-url/openNote?noteId={query}&amp;new_window=false</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.openurl</string>
+			<key>uid</key>
+			<string>811D439D-B098-40D3-849B-D18F02068DAA</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
 	</array>
 	<key>readme</key>
 	<string></string>
 	<key>uidata</key>
 	<dict>
+		<key>0BE40F09-4247-44D8-A025-5792208ABF46</key>
+		<dict>
+			<key>xpos</key>
+			<real>505</real>
+			<key>ypos</key>
+			<real>45</real>
+		</dict>
 		<key>3ADE29F5-39C2-45E0-BFF9-F57014E57B7D</key>
 		<dict>
 			<key>xpos</key>
@@ -112,12 +229,26 @@
 			<key>ypos</key>
 			<real>145</real>
 		</dict>
+		<key>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</key>
+		<dict>
+			<key>xpos</key>
+			<real>280</real>
+			<key>ypos</key>
+			<real>165</real>
+		</dict>
 		<key>811D439D-B098-40D3-849B-D18F02068DAA</key>
 		<dict>
 			<key>xpos</key>
-			<real>345</real>
+			<real>505</real>
 			<key>ypos</key>
-			<real>145</real>
+			<real>230</real>
+		</dict>
+		<key>AB5119CD-5852-4CC8-84DF-854D1A737B2A</key>
+		<dict>
+			<key>xpos</key>
+			<real>410</real>
+			<key>ypos</key>
+			<real>75</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -145,7 +276,7 @@
 		</dict>
 	</array>
 	<key>version</key>
-	<string>0.1</string>
+	<string>0.2</string>
 	<key>webaddress</key>
 	<string></string>
 </dict>
