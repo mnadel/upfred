@@ -3,19 +3,34 @@
 import os
 import sys
 import json
+import logging
 import argparse
 from os import listdir
 from os.path import basename, isfile, join, dirname
 
-def find(name, path):
-    for root, _, files in os.walk(path):
+logger = logging.getLogger(__name__)
+logging.basicConfig(stream=sys.stderr,
+    level=logging.DEBUG if os.getenv("DEBUG") else logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+def find(name, top):
+    # given a file name, find its full path within the top directory
+    for root, _, files in os.walk(top):
         if name in files:
             return os.path.join(root, name)
 
 def subtitle(f, uuid):
+    # `notebooks` contains links to uuid.md files organized by
+    # notebook hierarchy, we use this to infer the notebook name
     basedir = dirname(f)
+    logging.debug(f"basedir: {basedir}")
+
     fullbase = join(basedir, "notebooks")
+    logging.debug(f"fullbase: {fullbase}")
+
     path = find(f"{uuid}.md", fullbase)
+    logging.debug(f"path: {path}")
     if not path:
         return None
 
@@ -23,7 +38,7 @@ def subtitle(f, uuid):
     return dirname(path.removeprefix(fullbase + os.path.sep))
 
 def title(buffer):
-    # it's a markdown file, example: # Title\n
+    # it's a markdown file, first line contains title eg: `# Title\n`
     space = buffer.find(" ")
     newline = buffer.find("\n")
     return buffer[space+1:newline].strip()
