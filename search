@@ -6,6 +6,7 @@ import json
 import mmap
 import logging
 import argparse
+import functools
 from os import listdir
 from os.path import basename, isfile, join, dirname
 
@@ -37,11 +38,31 @@ class Reader:
             with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ) as o:
                 return o.read().decode("utf8")
 
+def cmp_len(a, b):
+    # compare two strings based on length
+    la, lb = len(a), len(b)
+
+    if la < lb:
+        return -1
+    elif lb > la:
+        return 1
+    else:
+        return 0
+
 def find(name, top):
     # given a file name, find its full path within the top directory
+    locations = []
+
     for root, _, files in os.walk(top):
         if name in files:
-            return os.path.join(root, name)
+            locations.append(os.path.join(root, name))
+
+    if not locations:
+        return None
+    elif len(locations) > 1:
+        logger.debug(f"found {len(locations)} locations for {name}: {locations}")
+
+    return sorted(locations, key=functools.cmp_to_key(cmp_len))[0]
 
 def subtitle(f, uuid):
     # `notebooks` contains links to uuid.md files organized by
