@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>bundleid</key>
-	<string>org.nadel.alfred.upnote</string>
+	<string>org.nadel.alfred.upfred</string>
 	<key>connections</key>
 	<dict>
 		<key>3ADE29F5-39C2-45E0-BFF9-F57014E57B7D</key>
@@ -57,6 +57,19 @@
 				<false/>
 			</dict>
 		</array>
+		<key>E4CD0016-D467-4B68-A82C-50C39B56D6EF</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
 	</dict>
 	<key>createdby</key>
 	<string>Michael Nadel</string>
@@ -92,23 +105,6 @@
 		<dict>
 			<key>config</key>
 			<dict>
-				<key>matchmode</key>
-				<integer>0</integer>
-				<key>matchstring</key>
-				<string>x-upfred-create:</string>
-				<key>replacestring</key>
-				<string></string>
-			</dict>
-			<key>type</key>
-			<string>alfred.workflow.utility.replace</string>
-			<key>uid</key>
-			<string>AB5119CD-5852-4CC8-84DF-854D1A737B2A</string>
-			<key>version</key>
-			<integer>2</integer>
-		</dict>
-		<dict>
-			<key>config</key>
-			<dict>
 				<key>alfredfiltersresults</key>
 				<false/>
 				<key>alfredfiltersresultsmatchmode</key>
@@ -122,7 +118,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>up</string>
+				<string>uc</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -140,9 +136,9 @@
 				<key>scriptfile</key>
 				<string></string>
 				<key>subtext</key>
-				<string>Terms are ANDed together</string>
+				<string></string>
 				<key>title</key>
-				<string>Open Note by Content</string>
+				<string>Open Note by Contents</string>
 				<key>type</key>
 				<integer>11</integer>
 				<key>withspace</key>
@@ -154,6 +150,23 @@
 			<string>3ADE29F5-39C2-45E0-BFF9-F57014E57B7D</string>
 			<key>version</key>
 			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>matchmode</key>
+				<integer>0</integer>
+				<key>matchstring</key>
+				<string>x-upfred-create:</string>
+				<key>replacestring</key>
+				<string></string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.replace</string>
+			<key>uid</key>
+			<string>AB5119CD-5852-4CC8-84DF-854D1A737B2A</string>
+			<key>version</key>
+			<integer>2</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -186,6 +199,55 @@
 			<string>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</string>
 			<key>version</key>
 			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>ut</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Searching...</string>
+				<key>script</key>
+				<string>./search -t -d "${upn_root}" $*</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string></string>
+				<key>title</key>
+				<string>Open Note by Title</string>
+				<key>type</key>
+				<integer>11</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>E4CD0016-D467-4B68-A82C-50C39B56D6EF</string>
+			<key>version</key>
+			<integer>3</integer>
 		</dict>
 		<dict>
 			<key>config</key>
@@ -225,9 +287,9 @@
 		<key>3ADE29F5-39C2-45E0-BFF9-F57014E57B7D</key>
 		<dict>
 			<key>xpos</key>
-			<real>95</real>
+			<real>75</real>
 			<key>ypos</key>
-			<real>145</real>
+			<real>70</real>
 		</dict>
 		<key>3B8D623F-FBE5-43AD-A907-9DC1CA0D34C3</key>
 		<dict>
@@ -251,6 +313,13 @@
 			<real>410</real>
 			<key>ypos</key>
 			<real>75</real>
+		</dict>
+		<key>E4CD0016-D467-4B68-A82C-50C39B56D6EF</key>
+		<dict>
+			<key>xpos</key>
+			<real>75</real>
+			<key>ypos</key>
+			<real>225</real>
 		</dict>
 	</dict>
 	<key>userconfigurationconfig</key>
@@ -278,7 +347,7 @@
 		</dict>
 	</array>
 	<key>version</key>
-	<string>0.2</string>
+	<string>0.3</string>
 	<key>webaddress</key>
 	<string>https://githhub.com/mnadel/upfred</string>
 </dict>

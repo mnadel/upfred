@@ -15,14 +15,27 @@ logging.basicConfig(stream=sys.stderr,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 
-def read(filename):
-    with open(filename, mode="r", encoding="utf8") as f:
-        return f.read().decode("utf8")
+class Reader:
+    def __init__(self, mmap, titles):
+        self._mmap = mmap
+        self._titles = titles
 
-def read_mmap(filename):
-    with open(filename, mode="r", encoding="utf8") as f:
-        with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ) as o:
-            return o.read().decode("utf8")
+    def read(self, filename):
+        buffer = self._read_mmap(filename) if self._mmap else self._read(filename)
+        if not self._titles:
+            return buffer
+        else:
+            newline = buffer.find("\n")
+            return buffer[:newline].strip()
+
+    def _read(self, filename):
+        with open(filename, mode="r", encoding="utf8") as f:
+            return f.read().decode("utf8")
+
+    def _read_mmap(self, filename):
+        with open(filename, mode="r", encoding="utf8") as f:
+            with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ) as o:
+                return o.read().decode("utf8")
 
 def find(name, top):
     # given a file name, find its full path within the top directory
@@ -51,7 +64,10 @@ def title(buffer):
     # it's a markdown file, first line contains title eg: `# Title\n`
     space = buffer.find(" ")
     newline = buffer.find("\n")
-    return buffer[space+1:newline].strip()
+    if newline < 0:
+        return buffer[space+1:].strip()
+    else:
+        return buffer[space+1:newline].strip()
 
 def result(f, buffer):
     base = basename(f)
@@ -71,6 +87,7 @@ def result(f, buffer):
 parser = argparse.ArgumentParser(prog=basename(sys.argv[0]), description="alfred+upnote integration")
 parser.add_argument("-d", "--dir", required=True, help="upnote backup path")
 parser.add_argument("-n", "--no-mmap", action="store_true", help="do not use mmap to read files")
+parser.add_argument("-t", "--titles", action="store_true", help="search titles only")
 parser.add_argument("search", nargs="+", help="search term")
 
 args = parser.parse_args()
@@ -89,8 +106,10 @@ notes = [join(latest, f) for f in listdir(latest) if f.lower().endswith(".md")]
 results = []
 terms = [x.strip() for x in " ".join(args.search).split(" ") if len(x.strip()) > 0]
 
+reader = Reader(mmap=not args.no_mmap, titles=args.titles)
+
 for f in notes:
-    buffer = read(f) if args.no_mmap else read_mmap(f)
+    buffer = reader.read(f)
     if all([s.lower() in buffer.lower() for s in terms]):
         results.append(result(f, buffer))
 
