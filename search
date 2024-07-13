@@ -22,18 +22,18 @@ class Reader:
         self._titles = titles
 
     def read(self, filename):
-        buffer = self._read_mmap(filename) if self._mmap else self._read(filename)
+        buf = self._mm(filename) if self._mmap else self._r(filename)
         if not self._titles:
-            return buffer
+            return buf
         else:
-            newline = buffer.find("\n")
-            return buffer[:newline].strip()
+            newline = buf.find("\n")
+            return buf[:newline].strip()
 
-    def _read(self, filename):
+    def _r(self, filename):
         with open(filename, mode="r", encoding="utf8") as f:
             return f.read().decode("utf8")
 
-    def _read_mmap(self, filename):
+    def _mm(self, filename):
         with open(filename, mode="r", encoding="utf8") as f:
             with mmap.mmap(f.fileno(), length=0, access=mmap.ACCESS_READ) as o:
                 return o.read().decode("utf8")
@@ -140,5 +140,5 @@ if not results or len(results) < 1:
         "title": "Create note " + title,
         "arg": "x-upfred-create:" + title
     })
-    
+
 print(json.dumps({"items": results}))

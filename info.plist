@@ -118,7 +118,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>uc</string>
+				<string>{var:upn_kw}s</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -138,7 +138,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Open Note by Contents</string>
+				<string>Search Notes by Content</string>
 				<key>type</key>
 				<integer>11</integer>
 				<key>withspace</key>
@@ -216,7 +216,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>keyword</key>
-				<string>ut</string>
+				<string>{var:upn_kw}t</string>
 				<key>queuedelaycustom</key>
 				<integer>3</integer>
 				<key>queuedelayimmediatelyinitially</key>
@@ -236,7 +236,7 @@
 				<key>subtext</key>
 				<string></string>
 				<key>title</key>
-				<string>Open Note by Title</string>
+				<string>Search Notes by Title</string>
 				<key>type</key>
 				<integer>11</integer>
 				<key>withspace</key>
@@ -324,6 +324,27 @@
 	</dict>
 	<key>userconfigurationconfig</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>up</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<true/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string></string>
+			<key>label</key>
+			<string>Trigger Keyword</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>upn_kw</string>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
